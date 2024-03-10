@@ -7,6 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+
+    ///another way to make middleware
+    public function __construct()
+    {
+        // $this->middleware(['auth']);
+        // $this->middleware(['auth'])->except('index');
+        // $this->middleware(['auth'])->only('index');
+    }
+
     //actions
     public function index()
     {
