@@ -30,7 +30,7 @@
         @if($categories->count())
         @foreach($categories as $category)
         <tr>
-            <td></td>
+            <td><img src="{{asset('storage/'.$category->image)}}" alt="image" height="50" width="50"></td>
             <td>{{ $category->id }}</td>
             <td>{{ $category->name }}</td>
             <td>{{ $category->parent_id }}</td>
