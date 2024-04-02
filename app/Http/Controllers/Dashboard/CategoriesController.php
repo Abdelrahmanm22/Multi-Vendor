@@ -152,7 +152,7 @@ class CategoriesController extends Controller
 //        ]);
         $old_image = $category->image;
         $data = $request->except('image');
-        $new_image = $this->uploadImgae($request);
+        $new_image = $this->uploadFile($request);
         if ($new_image) {
             $data['image'] = $new_image;
         }

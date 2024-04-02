@@ -11,11 +11,10 @@
     <div class="mb-5">
         <a href="{{route('dashboard.categories.create')}}" class="btn btn-sm btn-outline-primary">Add Category</a>
     </div>
-    @if(session()->has('success'))
-        <div class="alert alert-success">
-            {{session('success')}}
-        </div>
-    @endif
+
+    <x-alert type="success"/>
+{{--    <x-alert type="info"/>--}}
+
 <table class="table">
     <thead>
         <tr>
