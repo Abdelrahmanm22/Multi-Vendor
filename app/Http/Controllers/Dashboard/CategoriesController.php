@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -41,8 +42,28 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
+        // If the request reaches here, it means it has passed validation
+
+
+        ///Request Validation
+//        $request->validate([
+//           'name'=>'required|string|min:3|max:255', //255 number of characters
+//            'parent_id'=>[
+//                'nullable',
+//                'int',
+//                'exists:categories,id',
+//            ],
+//            'image'=>[
+//                'image',
+//                'max:1048576', //1048576 bytes
+//                'dimensions:min_width=100,min_height=100',
+//            ],
+//            'status'=>'in:active,archived',
+//        ]);
+
+
         ///we can access data of request in multiple ways
 //        $request->input('name');
 //        $request->post('name'); //from method post parameters
@@ -106,8 +127,24 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
+        ///Request Validation
+//        $request->validate([
+//            'name'=>'required|string|min:3|max:255', //255 number of characters
+//            'parent_id'=>[
+//                'nullable',
+//                'int',
+//                'exists:categories,id',
+//            ],
+//            'image'=>[
+//                'image',
+//                'max:1048576', //1048576 bytes
+//                'dimensions:min_width=100,min_height=100',
+//            ],
+//            'status'=>'in:active,archived',
+//        ]);
+
         $category = Category::find($id);
 //        $category = Category::update([
 //            '',
@@ -115,11 +152,14 @@ class CategoriesController extends Controller
 //        ]);
         $old_image = $category->image;
         $data = $request->except('image');
-        $data['image'] = $this->uploadFile($request);
+        $new_image = $this->uploadImgae($request);
+        if ($new_image) {
+            $data['image'] = $new_image;
+        }
 
         $category->update($data);
 
-        if ($old_image and $data['image']){ //isset ==> mwgod w msh null
+        if ($old_image and $new_image){ //isset ==> mwgod w msh null
             Storage::disk('public')->delete($old_image);
         }
         return redirect()->route('dashboard.categories.index')->with('success','Category Updated');
