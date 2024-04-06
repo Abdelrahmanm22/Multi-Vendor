@@ -1,8 +1,10 @@
 @props([
-    'type','name','value'=>'','label'
+    'type'=>'','name','value'=>'','label'=>''
 ])
 
-<label for="" >{{$label}}</label>
+@if($label)
+    <label for="" >{{$label}}</label>
+@endif
 <input
     type="{{$type}}"
     name="{{$name}}"

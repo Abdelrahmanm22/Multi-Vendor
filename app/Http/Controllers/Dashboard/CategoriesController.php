@@ -18,10 +18,34 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::all(); ///Return Collection Object , we can get $categories[0] or $categories->first();
-
+        $request = request();
+        $categories = Category::leftJoin('categories as parents','parents.id','=','categories.parent_id')
+            ->select(
+                'categories.*',
+                'parents.name as parent_name'
+            )
+            ->filter($request->query())
+            ->paginate(2);
         return view('dashboard.categories.index',compact('categories'));
     }
+//    public function index()
+//    {
+////        $categories = Category::all(); ///Return Collection Object , we can get $categories[0] or $categories->first();
+//        ///to use search
+//        $request = request();
+//        $query = Category::query();
+//        if ($name=$request->query('name')){
+//            $query->where('name','LIKE',"%{$name}%");
+//        }
+//        if ($status= $request->query('status')){
+//            $query->where('status','=',$status);
+//        }
+//
+////        $categories = Category::paginate(2);//default is 15 row
+////        $categories = $query->paginate(2);
+//        $categories = Category::active()->paginate(2); //for local scope
+//        return view('dashboard.categories.index',compact('categories'));
+//    }
 
     /**
      * Show the form for creating a new resource.
