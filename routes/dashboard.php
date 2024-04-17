@@ -13,6 +13,8 @@ Route::group([
     Route::get('/',[DashboardController::class,'index'])
         ->name('dashboard');
 
-
+    Route::get('/categories/trash',[CategoriesController::class,'trash'])->name('categories.trash');
     Route::resource('/categories',CategoriesController::class);
+    Route::put('/categories/{id}/restore',[CategoriesController::class,'restore'])->name('categories.restore')->where('id','\d+');
+    Route::delete('/categories/{id}/force-delete',[CategoriesController::class,'forceDelete'])->name('categories.force-delete');
 });

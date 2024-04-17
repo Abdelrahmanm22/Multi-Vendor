@@ -68,6 +68,7 @@ class CategoriesController extends Controller
      */
     public function store(CategoryRequest $request)
     {
+//        return 0;
         // If the request reaches here, it means it has passed validation
 
 
@@ -108,6 +109,8 @@ class CategoriesController extends Controller
         ///Handling Upload Files
         $data = $request->except('image');
         $data['image'] = $this->uploadFile($request);
+
+        return $data['image'];
 
         //if i want record in database
         $category = Category::create($data);
@@ -201,9 +204,10 @@ class CategoriesController extends Controller
         //el tarteb mohem
         $category = Category::findOrFail($id);
         $category->delete();
-        if ($category->image){
-            Storage::disk('public')->delete($category->image);
-        }
+        ///when use soft delete we want not delete image so comment this if
+//        if ($category->image){
+//            Storage::disk('public')->delete($category->image);
+//        }
         return redirect()->route('dashboard.categories.index')->with('success','Category Deleted');
     }
 
@@ -221,5 +225,30 @@ class CategoriesController extends Controller
             'disk'=>'public'
         ]);
         return $path;
+    }
+
+    public function trash()
+    {
+
+        $categories = Category::onlyTrashed()->paginate();
+        return view('dashboard.categories.trash',compact('categories'));
+    }
+    public function restore($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        //عايز ارجع من الناس المعمولها سوفت ديليت
+        $category->restore();
+        return redirect()->route('dashboard.categories.trash')->with('success','Category Restored..');
+    }
+    public function forceDelete($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+
+        $category->forceDelete(); //بتشيله نهائيا
+        if ($category->image){
+            Storage::disk('public')->delete($category->image);
+        }
+        return redirect()->route('dashboard.categories.trash')->with('success','Category Deleted Forever..');
+
     }
 }
