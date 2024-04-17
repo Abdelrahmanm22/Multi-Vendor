@@ -1,16 +1,16 @@
 @extends('layouts.dashboard')
 
 
-@section('title','Categories')
+@section('title','Products')
 @section('breadcrumb')
     @parent
-    <li class="breadcrumb-item active">Categories</li>
+    <li class="breadcrumb-item active">Products</li>
 @endsection
 
 @section('content')
     <div class="mb-5">
-        <a href="{{route('dashboard.categories.create')}}" class="btn btn-sm btn-outline-primary mr-3">Add Category</a>
-        <a href="{{route('dashboard.categories.trash')}}" class="btn btn-sm btn-outline-dark">Trash</a>
+        <a href="{{route('dashboard.products.create')}}" class="btn btn-sm btn-outline-primary mr-3">Add Product</a>
+{{--        <a href="{{route('dashboard.products.trash')}}" class="btn btn-sm btn-outline-dark">Trash</a>--}}
     </div>
 
     <x-alert/>
@@ -33,26 +33,28 @@
             <th></th>
             <th>ID</th>
             <th>Name</th>
-            <th>Parent</th>
+            <th>Category</th>
+            <th>Store</th>
             <th>Status</th>
             <th>Created At</th>
         </tr>
     </thead>
     <tbody>
-        @if($categories->count())
-        @foreach($categories as $category)
+        @if($products->count())
+        @foreach($products as $product)
         <tr>
-            <td><img src="{{$category->image}}" alt="image" height="50" width="50"></td>
-            <td>{{ $category->id }}</td>
-            <td>{{ $category->name }}</td>
-            <td>{{ $category->parent_name }}</td>
-            <td>{{ $category->status }}</td>
-            <td>{{ $category->created_at }}</td>
+            <td><img src="{{$product->image}}" alt="image" height="50" width="50"></td>
+            <td>{{ $product->id }}</td>
+            <td>{{ $product->name }}</td>
+            <td>{{ $product->category_id }}</td>
+            <td>{{ $product->store_id }}</td>
+            <td>{{ $product->status }}</td>
+            <td>{{ $product->created_at }}</td>
             <td>
-                <a href="{{route('dashboard.categories.edit',$category->id)}}" class="btn btn-sm btn-outline-success">Edit</a>
+                <a href="{{route('dashboard.products.edit',$product->id)}}" class="btn btn-sm btn-outline-success">Edit</a>
             </td>
             <td>
-                <form action="{{route('dashboard.categories.destroy',$category->id)}}" method="post" >
+                <form action="{{route('dashboard.products.destroy',$product->id)}}" method="post" >
                     @csrf
                     <!-- ***Form Method Spoofing -->
 {{--                   (1) <input type="hidden" name="_method" value="delete">--}}
@@ -71,5 +73,5 @@
         @endif
     </tbody>
 </table>
-   {{$categories->withQueryString()->links()}} {{-- to do well, go app->providers->AppServiceProvider in functon boot--}}
+   {{$products->withQueryString()->links()}} {{-- to do well, go app->providers->AppServiceProvider in functon boot--}}
 @endsection

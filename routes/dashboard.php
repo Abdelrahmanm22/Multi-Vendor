@@ -17,4 +17,5 @@ Route::group([
     Route::resource('/categories',CategoriesController::class);
     Route::put('/categories/{id}/restore',[CategoriesController::class,'restore'])->name('categories.restore')->where('id','\d+');
     Route::delete('/categories/{id}/force-delete',[CategoriesController::class,'forceDelete'])->name('categories.force-delete');
+    Route::resource('/products',\App\Http\Controllers\Dashboard\ProductController::class);
 });
