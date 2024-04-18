@@ -34,6 +34,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Parent</th>
+            <th>No of Products</th>
             <th>Status</th>
             <th>Created At</th>
         </tr>
@@ -44,8 +45,9 @@
         <tr>
             <td><img src="{{$category->image}}" alt="image" height="50" width="50"></td>
             <td>{{ $category->id }}</td>
-            <td>{{ $category->name }}</td>
-            <td>{{ $category->parent_name }}</td>
+            <td><a href="{{route('dashboard.categories.show',$category->id)}}">{{ $category->name }}</a></td>
+            <td>{{ $category->parent->name }}</td>
+            <td>{{$category->products_count}}</td>
             <td>{{ $category->status }}</td>
             <td>{{ $category->created_at }}</td>
             <td>
@@ -64,7 +66,7 @@
         @endforeach
         @else
             <tr>
-                <td colspan="7">
+                <td colspan="9">
                     No Categories Defined.
                 </td>
             </tr>

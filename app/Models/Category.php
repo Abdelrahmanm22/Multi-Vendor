@@ -17,6 +17,27 @@ class Category extends Model
         'name','parent_id','description','image','status','slug'
     ];
 
+
+    //Relation one to many
+    public function products()
+    {
+        return $this->hasMany(Product::class,'category_id','id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Category::class,'parent_id','id')
+            ->withDefault([ //لو الforiegn key مسموحله يبقا null
+                'name'=>'Main Category'
+            ]);
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Category::class,'parent_id','id');
+    }
+
+
     ///Eloquent Model Local scopes
     public function scopeActive(Builder $builder)
     {

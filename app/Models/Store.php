@@ -16,4 +16,9 @@ class Store extends Model
 //    public $timestamps = false; // لما تشيلهم من الdatabase
 //    const CREATED_AT = 'created_at';
 //    const UPDATED_AT = 'updated_at'; //lw 7abet a8yar esmohom
+
+    public function products()
+    {
+        return $this->hasMany(Product::class,'store_id','id');
+    }
 }
